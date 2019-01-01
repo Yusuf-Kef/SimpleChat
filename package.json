@@ -1,0 +1,17 @@
+{
+  "name": "Simple Chat",
+  "version": "1.0.0",
+  "description": "Simple Chat With NodeJS&MongoDB",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongodb": "^2.1.6",
+    "socket.io": "^1.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript">
+		
+		socket = io.connect();
+		
+		$(document).ready(function(){
+			
+			var Name = prompt("Name");
+			
+			$("#send").click(function(){
+				var TextMessage = $('#text').val();
+				var d = new Date();
+				var FullTime = d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()+"  "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+				socket.emit("send_to_server", {"message":TextMessage, "username":Name, "date": FullTime});
+				$('#text').val('');
+			});
+
+			socket.on("send_to_client", function(data){
+				var ParseMessage = "("+data.date+")<strong>"+data.username+"</strong> says: <br />"+data.message+"<hr />";
+				$('#AllMessage').append(ParseMessage);
+				var element = document.getElementById("AllMessage");
+				element.scrollTop = element.scrollHeight;
+			});
+			
+		});
+
+	</script>
+	<style>
+		
+		textarea, button{ display: block;}
+		textarea{ width: 500px; resize: none; border: 1px solid #565656; color: #3352AF; margin: 50px auto;}
+		button{ margin: 0 auto; background: #555; color: #ddd; border: 1px solid #565656; width: 150px; padding: 7px; font-size: 16px;}
+		#AllMessage{ overflow:auto; height:200px; background:#e2e5ee; text-align:center; margin:0 auto;}
+	</style>
+</head>
+<body>
+	<div>
+		<textarea name="text" id="text" cols="30" rows="10"></textarea>
+		<button id="send" type="button">Gönder</button>
+	</div>
+	<hr>
+	<div id="AllMessage"></div>
+</body>
+</html>
